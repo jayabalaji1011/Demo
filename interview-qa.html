@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Interview Q&amp;A Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    background: #07080f;
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    color: #e2e8f0;
+  }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #0f172a; }
+  ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+
+  .qa-card { transition: all 0.2s ease; }
+  .qa-card:hover { transform: translateX(4px); }
+
+  .code-block {
+    background: #010409;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    padding: 16px;
+    overflow-x: auto;
+    font-size: 12px;
+    line-height: 1.7;
+    white-space: pre;
+    color: #7dd3fc;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .theory-block {
+    background: #0d1117;
+    border-radius: 0 10px 10px 0;
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #94a3b8;
+    margin-bottom: 12px;
+  }
+  .prod-card {
+    background: #0f172a;
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid #1e293b;
+    transition: all 0.25s;
+    margin-bottom: 16px;
+  }
+  .prod-card:hover { border-color: #334155; transform: translateY(-2px); }
+  .badge {
+    display: inline-block; padding: 2px 10px; border-radius: 99px;
+    font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    margin: 3px;
+  }
+
+  /* Header */
+  #header {
+    background: #0a0a12;
+    border-bottom: 1px solid #1e293b;
+    padding: 20px 16px;
+    text-align: center;
+    position: sticky; top: 0; z-index: 50;
+  }
+  #header-inner { max-width: 800px; margin: 0 auto; }
+  #header h1 {
+    margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #3B82F6, #10B981, #F59E0B);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  #header p {
+    margin: 4px 0 14px; font-size: 11px; color: #475569; letter-spacing: 2px;
+  }
+  #tabs { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+  .tab-btn {
+    padding: 8px 18px; border-radius: 10px;
+    background: transparent; cursor: pointer;
+    font-family: inherit; font-size: 12px; font-weight: 700;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    transition: all 0.2s;
+  }
+  .tab-btn .tab-count { font-size: 10px; }
+
+  /* Main content */
+  #main { max-width: 800px; margin: 0 auto; padding: 24px 14px; }
+
+  /* View mode toggle (Zoho) */
+  #view-toggle { display: flex; gap: 8px; margin-bottom: 20px; }
+  .view-btn {
+    flex: 1; padding: 10px; border-radius: 10px; cursor: pointer;
+    font-family: inherit; font-weight: 700; font-size: 12px;
+    transition: all 0.2s;
+  }
+
+  /* Progress bar */
+  #progress-bar-wrap {
+    background: #0f172a; border-radius: 12px; padding: 12px 16px;
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .progress-label { font-size: 12px; font-weight: 700; }
+  .progress-track {
+    flex: 1; height: 6px; background: #1e293b; border-radius: 99px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; border-radius: 99px; transition: width 0.4s;
+  }
+  .progress-count { font-size: 12px; font-weight: 700; color: #e2e8f0; }
+
+  /* QA list */
+  #qa-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .qa-card {
+    border-radius: 12px; overflow: hidden;
+  }
+  .qa-header {
+    padding: 14px 16px;
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer;
+  }
+  .qa-num { font-size: 11px; color: #334155; min-width: 24px; font-weight: 700; }
+  .qa-question { flex: 1; font-weight: 700; font-size: 14px; }
+  .qa-check {
+    width: 24px; height: 24px; border-radius: 6px; flex-shrink: 0;
+    cursor: pointer; font-size: 12px; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    background: transparent;
+  }
+  .qa-arrow { color: #475569; font-size: 14px; }
+
+  .qa-body { padding: 0 16px 16px; }
+
+  .qa-code-toggle {
+    padding: 8px 16px; border-radius: 8px; margin-bottom: 0;
+    cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 700;
+    background: transparent;
+  }
+
+  /* Footer tip */
+  #footer-tip {
+    margin-top: 24px; padding: 12px 16px;
+    background: #0f172a; border-radius: 10px;
+    border: 1px solid #1e293b;
+    font-size: 11px; color: #475569; text-align: center; line-height: 1.7;
+  }
+
+  /* Product guide */
+  #prod-guide-header { font-size: 12px; color: #475569; margin-bottom: 4px; letter-spacing: 1px; }
+  .prod-purpose-label, .prod-usedfor-label, .prod-features-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  }
+  .prod-purpose-text, .prod-usedfor-text {
+    margin: 4px 0 0; font-size: 13px; color: #94a3b8; line-height: 1.6;
+  }
+  .prod-card-title { font-weight: 700; font-size: 15px; color: #f1f5f9; }
+  .prod-card-tagline { font-size: 11px; color: #64748b; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <div id="header-inner">
+    <h1>Interview Q&amp;A Prep</h1>
+    <p>PYTHON · SQL · ZOHO PRODUCTS</p>
+    <div id="tabs"></div>
+  </div>
+</div>
+
+<div id="main">
+  <div id="view-toggle" style="display:none;"></div>
+  <div id="content-area"></div>
+</div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────────────────
+const data = {
+  Python: {
+    icon: "🐍",
+    color: "#3B82F6",
+    accent: "#93C5FD",
+    bg: "#0f1d35",
+    qa: [
+      {
+        q: "What are Python Data Types?",
+        theory: "Python has built-in data types to store different kinds of values. They are categorized as: Numeric (int, float, complex), Sequence (list, tuple, str), Mapping (dict), Set (set, frozenset), Boolean (bool), and None.",
+        code: `# Numeric
+x = 10          # int
+y = 3.14        # float
+z = 2 + 3j      # complex
+
+# Sequence
+my_list  = [1, 2, 3]       # mutable
+my_tuple = (1, 2, 3)       # immutable
+my_str   = "hello"         # immutable
+
+# Mapping
+my_dict = {"name": "Alice", "age": 25}
+
+# Set
+my_set = {1, 2, 3}   # unique elements
+
+# Boolean
+flag = True
+
+# Check type
+print(type(x))   # <class 'int'>`,
+      },
+      {
+        q: "What are Lists and List Operations?",
+        theory: "A list is an ordered, mutable collection that allows duplicate elements. Lists are defined with square brackets []. They support indexing, slicing, and many built-in methods like append, remove, sort, etc.",
+        code: `fruits = ["apple", "banana", "cherry"]
+
+# Indexing
+print(fruits[0])      # apple
+print(fruits[-1])     # cherry (last)
+
+# Slicing
+print(fruits[0:2])    # ['apple', 'banana']
+
+# Add elements
+fruits.append("mango")
+fruits.insert(1, "grape")
+
+# Remove elements
+fruits.remove("banana")
+popped = fruits.pop()  # removes last
+
+# Other operations
+print(len(fruits))     # length
+fruits.sort()          # sort in-place
+fruits.reverse()       # reverse in-place
+
+# List comprehension
+squares = [x**2 for x in range(5)]
+# [0, 1, 4, 9, 16]`,
+      },
+      {
+        q: "What are Loops in Python?",
+        theory: "Python has two loop types: (1) for loop — iterates over a sequence (list, tuple, string, range). (2) while loop — repeats as long as a condition is True. Both support break (exit loop), continue (skip iteration), and else clause.",
+        code: `# for loop
+for i in range(5):
+    print(i)           # 0 1 2 3 4
+
+# for loop over list
+fruits = ["apple", "banana"]
+for fruit in fruits:
+    print(fruit)
+
+# while loop
+count = 0
+while count < 3:
+    print(count)
+    count += 1
+
+# break & continue
+for i in range(10):
+    if i == 3: continue   # skip 3
+    if i == 6: break      # stop at 6
+    print(i)
+
+# enumerate (index + value)
+for idx, val in enumerate(fruits):
+    print(idx, val)       # 0 apple  1 banana
+
+# nested loop
+for i in range(3):
+    for j in range(3):
+        print(i, j)`,
+      },
+      {
+        q: "What are Functions in Python?",
+        theory: "A function is a reusable block of code defined using the def keyword. Python supports default arguments, keyword arguments, *args (variable positional args), **kwargs (variable keyword args), and lambda (anonymous) functions.",
+        code: `# Basic function
+def greet(name):
+    return f"Hello, {name}!"
+
+print(greet("Alice"))   # Hello, Alice!
+
+# Default argument
+def power(base, exp=2):
+    return base ** exp
+
+print(power(3))      # 9
+print(power(2, 10))  # 1024
+
+# *args — multiple positional args
+def total(*nums):
+    return sum(nums)
+
+print(total(1, 2, 3, 4))   # 10
+
+# **kwargs — keyword args
+def info(**details):
+    for k, v in details.items():
+        print(f"{k}: {v}")
+
+info(name="Bob", age=30)
+
+# Lambda function
+square = lambda x: x * x
+print(square(5))    # 25
+
+# map / filter with lambda
+nums = [1, 2, 3, 4, 5]
+evens = list(filter(lambda x: x % 2 == 0, nums))
+# [2, 4]`,
+      },
+      {
+        q: "What is OOP in Python?",
+        theory: "Object-Oriented Programming (OOP) organizes code around objects. Key concepts: Class (blueprint), Object (instance), Encapsulation (hiding data), Inheritance (child class reuses parent), Polymorphism (same method, different behavior), Abstraction (hide complexity).",
+        code: `# Class and Object
+class Animal:
+    def __init__(self, name, sound):
+        self.name  = name    # instance attribute
+        self.sound = sound
+
+    def speak(self):
+        return f"{self.name} says {self.sound}"
+
+dog = Animal("Dog", "Woof")
+print(dog.speak())     # Dog says Woof
+
+# Inheritance
+class Dog(Animal):
+    def __init__(self, name):
+        super().__init__(name, "Woof")
+
+    def fetch(self):
+        return f"{self.name} fetches the ball!"
+
+d = Dog("Rex")
+print(d.speak())    # Rex says Woof
+print(d.fetch())    # Rex fetches the ball!
+
+# Encapsulation (private var)
+class BankAccount:
+    def __init__(self, balance):
+        self.__balance = balance    # private
+
+    def deposit(self, amt):
+        self.__balance += amt
+
+    def get_balance(self):
+        return self.__balance
+
+acc = BankAccount(1000)
+acc.deposit(500)
+print(acc.get_balance())   # 1500`,
+      },
+      {
+        q: "What are Dictionaries in Python?",
+        theory: "A dictionary is an unordered (Python 3.7+ maintains insertion order), mutable collection of key-value pairs. Keys must be unique and immutable (strings, numbers, tuples). Values can be any type.",
+        code: `# Create dict
+person = {"name": "Alice", "age": 25, "city": "NYC"}
+
+# Access
+print(person["name"])          # Alice
+print(person.get("phone", "N/A"))  # N/A (safe)
+
+# Modify
+person["age"] = 26
+person["email"] = "a@b.com"
+
+# Delete
+del person["city"]
+removed = person.pop("email")
+
+# Iterate
+for key in person:
+    print(key, person[key])
+
+for k, v in person.items():
+    print(f"{k} => {v}")
+
+# Dict comprehension
+squares = {x: x**2 for x in range(5)}
+# {0:0, 1:1, 2:4, 3:9, 4:16}
+
+# Nested dict
+employee = {
+    "id": 101,
+    "details": {"dept": "IT", "salary": 50000}
+}
+print(employee["details"]["dept"])  # IT`,
+      },
+      {
+        q: "What is Exception Handling?",
+        theory: "Exception handling prevents program crashes by catching and managing runtime errors. Python uses try, except, else, finally blocks. You can catch specific exceptions or use a general Exception. Custom exceptions can be created by extending the Exception class.",
+        code: `# Basic try-except
+try:
+    result = 10 / 0
+except ZeroDivisionError:
+    print("Cannot divide by zero!")
+
+# Multiple exceptions
+try:
+    x = int("abc")
+except ValueError:
+    print("Invalid number!")
+except TypeError:
+    print("Wrong type!")
+
+# else & finally
+try:
+    f = open("data.txt", "r")
+    content = f.read()
+except FileNotFoundError:
+    print("File not found!")
+else:
+    print("File read successfully")  # runs if no error
+finally:
+    print("Always runs!")  # cleanup code
+
+# Custom exception
+class AgeError(Exception):
+    pass
+
+def validate_age(age):
+    if age < 0:
+        raise AgeError("Age cannot be negative")
+    return age
+
+try:
+    validate_age(-5)
+except AgeError as e:
+    print(e)   # Age cannot be negative`,
+      },
+      {
+        q: "What are List Comprehensions and Generators?",
+        theory: "List comprehensions create lists in a concise way. Generators are memory-efficient iterators that yield values one at a time instead of storing all in memory — ideal for large datasets. Created with () or yield keyword.",
+        code: `# List comprehension
+squares = [x**2 for x in range(10)]
+evens   = [x for x in range(20) if x % 2 == 0]
+
+# Nested comprehension (2D)
+matrix = [[i*j for j in range(3)] for i in range(3)]
+
+# Dict comprehension
+word_len = {w: len(w) for w in ["hi", "hello", "hey"]}
+
+# Set comprehension
+unique_sq = {x**2 for x in [-2, -1, 0, 1, 2]}
+
+# Generator expression (lazy — memory efficient)
+gen = (x**2 for x in range(1000000))  # no memory hit
+print(next(gen))   # 0
+print(next(gen))   # 1
+
+# Generator function with yield
+def count_up(n):
+    i = 0
+    while i < n:
+        yield i
+        i += 1
+
+for val in count_up(5):
+    print(val)   # 0 1 2 3 4
+
+# Practical: read large file line by line
+def read_large_file(path):
+    with open(path) as f:
+        for line in f:
+            yield line.strip()`,
+      },
+      {
+        q: "What are Decorators in Python?",
+        theory: "A decorator is a function that wraps another function to add functionality without modifying the original. Commonly used for logging, authentication, caching, and timing. Python has built-in decorators: @staticmethod, @classmethod, @property.",
+        code: `# Basic decorator
+def logger(func):
+    def wrapper(*args, **kwargs):
+        print(f"Calling {func.__name__}")
+        result = func(*args, **kwargs)
+        print(f"Done {func.__name__}")
+        return result
+    return wrapper
+
+@logger
+def add(a, b):
+    return a + b
+
+add(3, 4)
+# Calling add
+# Done add
+
+# Timer decorator
+import time
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        end = time.time()
+        print(f"Time: {end - start:.4f}s")
+        return result
+    return wrapper
+
+@timer
+def slow_func():
+    time.sleep(0.5)
+
+slow_func()   # Time: 0.5001s
+
+# Built-in decorators
+class Circle:
+    def __init__(self, r):
+        self.r = r
+
+    @property
+    def area(self):             # access like attribute
+        return 3.14 * self.r**2
+
+    @staticmethod
+    def description():
+        return "I am a circle"
+
+c = Circle(5)
+print(c.area)           # 78.5
+print(Circle.description())`,
+      },
+      {
+        q: "What is File Handling in Python?",
+        theory: "Python can read, write, and append to files using the open() function. Modes: 'r' (read), 'w' (write/overwrite), 'a' (append), 'b' (binary). Best practice is to use the with statement which auto-closes the file.",
+        code: `# Write to file
+with open("sample.txt", "w") as f:
+    f.write("Hello, World!\\n")
+    f.write("Python is great\\n")
+
+# Read entire file
+with open("sample.txt", "r") as f:
+    content = f.read()
+    print(content)
+
+# Read line by line
+with open("sample.txt", "r") as f:
+    for line in f:
+        print(line.strip())
+
+# Read all lines into list
+with open("sample.txt", "r") as f:
+    lines = f.readlines()
+
+# Append to file
+with open("sample.txt", "a") as f:
+    f.write("Appended line\\n")
+
+# Working with CSV
+import csv
+data = [["Name","Age"], ["Alice",25], ["Bob",30]]
+
+with open("data.csv", "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerows(data)
+
+with open("data.csv", "r") as f:
+    reader = csv.reader(f)
+    for row in reader:
+        print(row)`,
+      },
+    ],
+  },
+
+  SQL: {
+    icon: "🗄️",
+    color: "#10B981",
+    accent: "#6EE7B7",
+    bg: "#0a1f17",
+    qa: [
+      {
+        q: "What is SQL and its categories?",
+        theory: "SQL (Structured Query Language) is used to manage relational databases. It has 4 categories: DDL (Data Definition Language) — CREATE, ALTER, DROP, TRUNCATE. DML (Data Manipulation Language) — INSERT, UPDATE, DELETE. DQL (Data Query Language) — SELECT. DCL (Data Control Language) — GRANT, REVOKE. TCL (Transaction Control Language) — COMMIT, ROLLBACK, SAVEPOINT.",
+        code: `-- DDL: Define structure
+CREATE TABLE employees (
+    id    INT PRIMARY KEY,
+    name  VARCHAR(100),
+    dept  VARCHAR(50),
+    salary DECIMAL(10,2)
+);
+
+ALTER TABLE employees ADD COLUMN email VARCHAR(100);
+DROP TABLE employees;
+
+-- DML: Manipulate data
+INSERT INTO employees (id, name, dept, salary)
+VALUES (1, 'Alice', 'IT', 75000);
+
+UPDATE employees
+SET salary = 80000
+WHERE id = 1;
+
+DELETE FROM employees WHERE id = 1;
+
+-- DQL: Query data
+SELECT name, salary FROM employees;
+
+-- DCL: Permissions
+GRANT SELECT ON employees TO user1;
+REVOKE SELECT ON employees FROM user1;
+
+-- TCL: Transactions
+BEGIN;
+UPDATE accounts SET balance = balance - 500 WHERE id = 1;
+UPDATE accounts SET balance = balance + 500 WHERE id = 2;
+COMMIT;   -- or ROLLBACK;`,
+      },
+      {
+        q: "What is SELECT with WHERE, ORDER BY, LIMIT?",
+        theory: "SELECT retrieves data from a table. WHERE filters rows based on conditions. ORDER BY sorts results (ASC default, DESC for descending). LIMIT restricts number of rows returned. DISTINCT removes duplicates.",
+        code: `-- Basic SELECT
+SELECT * FROM employees;
+SELECT name, salary FROM employees;
+
+-- WHERE clause
+SELECT * FROM employees WHERE dept = 'IT';
+SELECT * FROM employees WHERE salary > 60000;
+SELECT * FROM employees WHERE salary BETWEEN 50000 AND 80000;
+SELECT * FROM employees WHERE name LIKE 'A%';   -- starts with A
+SELECT * FROM employees WHERE dept IN ('IT', 'HR', 'Finance');
+SELECT * FROM employees WHERE email IS NULL;
+
+-- AND / OR / NOT
+SELECT * FROM employees
+WHERE dept = 'IT' AND salary > 70000;
+
+SELECT * FROM employees
+WHERE dept = 'IT' OR dept = 'HR';
+
+-- ORDER BY
+SELECT * FROM employees ORDER BY salary DESC;
+SELECT * FROM employees ORDER BY dept ASC, salary DESC;
+
+-- LIMIT / TOP
+SELECT * FROM employees ORDER BY salary DESC LIMIT 5;  -- MySQL
+SELECT TOP 5 * FROM employees ORDER BY salary DESC;    -- SQL Server
+
+-- DISTINCT
+SELECT DISTINCT dept FROM employees;`,
+      },
+      {
+        q: "What are SQL JOINs?",
+        theory: "JOIN combines rows from two or more tables based on a related column. Types: INNER JOIN — only matching rows. LEFT JOIN — all from left + matching from right. RIGHT JOIN — all from right + matching from left. FULL OUTER JOIN — all rows from both. SELF JOIN — table joined with itself. CROSS JOIN — every combination.",
+        code: `-- Sample tables
+-- employees: id, name, dept_id
+-- departments: dept_id, dept_name
+
+-- INNER JOIN (only matches)
+SELECT e.name, d.dept_name
+FROM employees e
+INNER JOIN departments d ON e.dept_id = d.dept_id;
+
+-- LEFT JOIN (all employees, even without dept)
+SELECT e.name, d.dept_name
+FROM employees e
+LEFT JOIN departments d ON e.dept_id = d.dept_id;
+
+-- RIGHT JOIN (all depts, even without employees)
+SELECT e.name, d.dept_name
+FROM employees e
+RIGHT JOIN departments d ON e.dept_id = d.dept_id;
+
+-- FULL OUTER JOIN
+SELECT e.name, d.dept_name
+FROM employees e
+FULL OUTER JOIN departments d ON e.dept_id = d.dept_id;
+
+-- SELF JOIN (find manager-employee pairs)
+SELECT e.name AS employee, m.name AS manager
+FROM employees e
+LEFT JOIN employees m ON e.manager_id = m.id;
+
+-- 3-table JOIN
+SELECT o.order_id, c.name, p.product_name
+FROM orders o
+JOIN customers c ON o.customer_id = c.id
+JOIN products p ON o.product_id = p.id;`,
+      },
+      {
+        q: "What are Aggregate Functions and GROUP BY?",
+        theory: "Aggregate functions perform calculations on a set of rows and return a single value. Common ones: COUNT, SUM, AVG, MIN, MAX. GROUP BY groups rows sharing a value. HAVING filters groups (like WHERE but for groups).",
+        code: `-- COUNT: number of rows
+SELECT COUNT(*) FROM employees;
+SELECT COUNT(DISTINCT dept) FROM employees;
+
+-- SUM, AVG, MIN, MAX
+SELECT SUM(salary) AS total_salary FROM employees;
+SELECT AVG(salary) AS avg_salary  FROM employees;
+SELECT MIN(salary) AS min_salary  FROM employees;
+SELECT MAX(salary) AS max_salary  FROM employees;
+
+-- GROUP BY: aggregate per group
+SELECT dept, COUNT(*) AS headcount, AVG(salary) AS avg_sal
+FROM employees
+GROUP BY dept;
+
+-- HAVING: filter after grouping (not WHERE!)
+SELECT dept, AVG(salary) AS avg_sal
+FROM employees
+GROUP BY dept
+HAVING AVG(salary) > 60000;
+
+-- WHERE + GROUP BY + HAVING together
+SELECT dept, COUNT(*) AS cnt
+FROM employees
+WHERE salary > 40000         -- filter rows first
+GROUP BY dept
+HAVING COUNT(*) >= 3         -- filter groups
+ORDER BY cnt DESC;
+
+-- Useful patterns
+SELECT dept,
+    COUNT(*)         AS total,
+    MAX(salary)      AS highest,
+    ROUND(AVG(salary),2) AS avg_pay
+FROM employees
+GROUP BY dept;`,
+      },
+      {
+        q: "What are Subqueries and CTEs?",
+        theory: "A subquery is a query inside another query (SELECT, FROM, or WHERE clause). A CTE (Common Table Expression) is a named temporary result set using WITH — making complex queries more readable. CTEs can be recursive for hierarchical data.",
+        code: `-- Subquery in WHERE
+SELECT name, salary FROM employees
+WHERE salary > (SELECT AVG(salary) FROM employees);
+
+-- Subquery in FROM (derived table)
+SELECT dept, avg_sal
+FROM (
+    SELECT dept, AVG(salary) AS avg_sal
+    FROM employees
+    GROUP BY dept
+) AS dept_avg
+WHERE avg_sal > 60000;
+
+-- Correlated subquery (references outer query)
+SELECT e.name, e.salary
+FROM employees e
+WHERE e.salary = (
+    SELECT MAX(salary) FROM employees
+    WHERE dept = e.dept   -- references outer 'e'
+);
+
+-- CTE (WITH clause) — cleaner version
+WITH dept_avg AS (
+    SELECT dept, AVG(salary) AS avg_sal
+    FROM employees
+    GROUP BY dept
+),
+high_pay AS (
+    SELECT dept FROM dept_avg WHERE avg_sal > 60000
+)
+SELECT e.name, e.salary
+FROM employees e
+JOIN high_pay h ON e.dept = h.dept;
+
+-- Recursive CTE (org hierarchy)
+WITH RECURSIVE org AS (
+    SELECT id, name, manager_id, 0 AS level
+    FROM employees WHERE manager_id IS NULL
+    UNION ALL
+    SELECT e.id, e.name, e.manager_id, org.level + 1
+    FROM employees e
+    JOIN org ON e.manager_id = org.id
+)
+SELECT * FROM org;`,
+      },
+      {
+        q: "What are Window Functions?",
+        theory: "Window functions perform calculations across a set of rows related to the current row — without collapsing them like GROUP BY. They use OVER() clause. Key functions: ROW_NUMBER, RANK, DENSE_RANK, NTILE, LAG, LEAD, SUM/AVG OVER PARTITION.",
+        code: `-- ROW_NUMBER: unique sequential number
+SELECT name, dept, salary,
+    ROW_NUMBER() OVER (ORDER BY salary DESC) AS row_num
+FROM employees;
+
+-- RANK vs DENSE_RANK
+-- RANK: gaps in rank (1,1,3)  DENSE_RANK: no gaps (1,1,2)
+SELECT name, salary,
+    RANK()       OVER (ORDER BY salary DESC) AS rnk,
+    DENSE_RANK() OVER (ORDER BY salary DESC) AS dense_rnk
+FROM employees;
+
+-- PARTITION BY (rank within each dept)
+SELECT name, dept, salary,
+    RANK() OVER (
+        PARTITION BY dept ORDER BY salary DESC
+    ) AS dept_rank
+FROM employees;
+
+-- LAG and LEAD (access adjacent rows)
+SELECT name, salary,
+    LAG(salary, 1)  OVER (ORDER BY salary) AS prev_salary,
+    LEAD(salary, 1) OVER (ORDER BY salary) AS next_salary
+FROM employees;
+
+-- Running total (cumulative SUM)
+SELECT name, salary,
+    SUM(salary) OVER (ORDER BY id) AS running_total
+FROM employees;
+
+-- Top N per group (using ROW_NUMBER)
+WITH ranked AS (
+    SELECT *, ROW_NUMBER() OVER (
+        PARTITION BY dept ORDER BY salary DESC
+    ) AS rn
+    FROM employees
+)
+SELECT * FROM ranked WHERE rn <= 2;  -- top 2 per dept`,
+      },
+      {
+        q: "What are Indexes and Query Optimization?",
+        theory: "An index is a data structure that speeds up SELECT queries but slows down INSERT/UPDATE/DELETE. Types: Clustered Index (physically sorts table — one per table), Non-clustered Index (separate structure — multiple allowed). Use EXPLAIN to analyze query execution plans.",
+        code: `-- Create index
+CREATE INDEX idx_dept ON employees(dept);
+CREATE INDEX idx_dept_salary ON employees(dept, salary);  -- composite
+
+-- Unique index
+CREATE UNIQUE INDEX idx_email ON employees(email);
+
+-- Drop index
+DROP INDEX idx_dept ON employees;  -- MySQL
+DROP INDEX idx_dept;               -- PostgreSQL
+
+-- View indexes
+SHOW INDEX FROM employees;   -- MySQL
+
+-- EXPLAIN (query plan analysis)
+EXPLAIN SELECT * FROM employees WHERE dept = 'IT';
+EXPLAIN ANALYZE SELECT * FROM employees WHERE dept = 'IT'; -- PostgreSQL
+
+-- Optimization tips in SQL:
+-- 1. Avoid SELECT * — specify columns
+SELECT name, salary FROM employees;   -- GOOD
+SELECT * FROM employees;               -- AVOID in production
+
+-- 2. Use WHERE to filter early
+-- 3. Avoid functions on indexed columns in WHERE
+-- BAD: WHERE YEAR(created_at) = 2024
+-- GOOD: WHERE created_at BETWEEN '2024-01-01' AND '2024-12-31'
+
+-- 4. Use EXISTS instead of IN for large sets
+SELECT name FROM employees e
+WHERE EXISTS (
+    SELECT 1 FROM orders o WHERE o.emp_id = e.id
+);`,
+      },
+      {
+        q: "What are Stored Procedures and Functions?",
+        theory: "A stored procedure is a saved SQL program that can accept parameters and execute complex logic. A function always returns a value. Stored procedures can have IN, OUT, INOUT parameters. They improve performance (precompiled), security, and code reuse.",
+        code: `-- Stored Procedure (MySQL)
+DELIMITER //
+CREATE PROCEDURE GetEmployeeByDept(IN dept_name VARCHAR(50))
+BEGIN
+    SELECT name, salary
+    FROM employees
+    WHERE dept = dept_name
+    ORDER BY salary DESC;
+END //
+DELIMITER ;
+
+-- Call procedure
+CALL GetEmployeeByDept('IT');
+
+-- Procedure with OUT parameter
+DELIMITER //
+CREATE PROCEDURE GetMaxSalary(
+    IN dept_name VARCHAR(50),
+    OUT max_sal  DECIMAL(10,2)
+)
+BEGIN
+    SELECT MAX(salary) INTO max_sal
+    FROM employees
+    WHERE dept = dept_name;
+END //
+DELIMITER ;
+
+-- Call with OUT
+CALL GetMaxSalary('IT', @result);
+SELECT @result;
+
+-- Function (returns value)
+DELIMITER //
+CREATE FUNCTION TaxAmount(salary DECIMAL(10,2))
+RETURNS DECIMAL(10,2)
+DETERMINISTIC
+BEGIN
+    RETURN salary * 0.3;
+END //
+DELIMITER ;
+
+-- Use function
+SELECT name, salary, TaxAmount(salary) AS tax
+FROM employees;`,
+      },
+      {
+        q: "What are Transactions and ACID Properties?",
+        theory: "A transaction is a sequence of SQL statements that execute as a single unit. ACID properties: Atomicity (all or nothing), Consistency (DB stays valid), Isolation (transactions don't interfere), Durability (committed data persists). Isolation levels: READ UNCOMMITTED, READ COMMITTED, REPEATABLE READ, SERIALIZABLE.",
+        code: `-- Basic Transaction
+BEGIN TRANSACTION;   -- or START TRANSACTION; (MySQL)
+
+UPDATE accounts
+SET balance = balance - 1000
+WHERE account_id = 101;
+
+UPDATE accounts
+SET balance = balance + 1000
+WHERE account_id = 202;
+
+COMMIT;    -- save changes
+
+-- Rollback on error
+BEGIN TRANSACTION;
+
+UPDATE employees SET salary = salary * 1.1;
+
+-- Oops, wrong condition? Undo it:
+ROLLBACK;
+
+-- SAVEPOINT (partial rollback)
+BEGIN;
+SAVEPOINT step1;
+INSERT INTO orders VALUES (1001, 'Alice', 500);
+
+SAVEPOINT step2;
+INSERT INTO orders VALUES (1002, 'Bob', 300);
+
+-- Undo only from step2
+ROLLBACK TO SAVEPOINT step2;
+COMMIT;   -- step1 insert is saved
+
+-- Isolation level (MySQL)
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+-- READ UNCOMMITTED: dirty reads allowed
+-- READ COMMITTED:   only committed data
+-- REPEATABLE READ:  same read in transaction
+-- SERIALIZABLE:     strictest, fully sequential`,
+      },
+      {
+        q: "What is Normalization?",
+        theory: "Normalization organizes a database to reduce redundancy and improve integrity. Normal Forms: 1NF (atomic values, no repeating groups), 2NF (1NF + no partial dependency on composite PK), 3NF (2NF + no transitive dependency), BCNF (stricter 3NF). Denormalization trades redundancy for performance.",
+        code: `-- UNNORMALIZED (bad) — repeating groups
+-- OrderID | CustomerName | Products
+-- 1       | Alice        | Apple,Banana,Mango
+
+-- 1NF: Atomic values, each column one value
+CREATE TABLE orders_1nf (
+    order_id    INT,
+    customer    VARCHAR(100),
+    product     VARCHAR(100),   -- one product per row
+    PRIMARY KEY (order_id, product)
+);
+
+-- 2NF: Remove partial dependency
+-- If PK is (order_id, product), customer depends
+-- only on order_id → separate tables
+
+CREATE TABLE orders (
+    order_id  INT PRIMARY KEY,
+    customer  VARCHAR(100)    -- depends only on order_id
+);
+CREATE TABLE order_items (
+    order_id  INT,
+    product   VARCHAR(100),
+    quantity  INT,
+    PRIMARY KEY (order_id, product)
+);
+
+-- 3NF: Remove transitive dependency
+-- employee: emp_id, dept_id, dept_name
+-- dept_name depends on dept_id, not emp_id → separate
+
+CREATE TABLE departments (
+    dept_id   INT PRIMARY KEY,
+    dept_name VARCHAR(100)
+);
+CREATE TABLE employees_3nf (
+    emp_id  INT PRIMARY KEY,
+    name    VARCHAR(100),
+    dept_id INT REFERENCES departments(dept_id)
+);`,
+      },
+    ],
+  },
+
+  Zoho: {
+    icon: "⚡",
+    color: "#F59E0B",
+    accent: "#FCD34D",
+    bg: "#1a1200",
+    products: [
+      {
+        name: "Zoho CRM",
+        icon: "👥",
+        tagline: "Customer Relationship Management",
+        purpose: "Manage leads, contacts, deals, and customer interactions throughout the sales cycle.",
+        usedFor: "Sales teams to track prospects, automate follow-ups, manage pipelines, and close deals faster.",
+        keyFeatures: ["Leads & Contacts management", "Sales pipeline (Kanban/List)", "Workflow automation & blueprints", "Email integration & tracking", "Reports & dashboards", "AI assistant — Zia"],
+        color: "#E53E3E",
+      },
+      {
+        name: "Zoho Creator",
+        icon: "🛠️",
+        tagline: "Low-Code Application Builder",
+        purpose: "Build custom web and mobile applications with minimal coding using drag-and-drop interface and Deluge scripting.",
+        usedFor: "Businesses needing custom internal tools, forms, workflows, and apps without a full development team.",
+        keyFeatures: ["Drag-and-drop form builder", "Deluge scripting language", "Database management", "Custom workflows & approvals", "REST API integration", "Multi-platform deployment"],
+        color: "#805AD5",
+      },
+      {
+        name: "Zoho Analytics",
+        icon: "📊",
+        tagline: "Business Intelligence & Reporting",
+        purpose: "Transform raw data into meaningful insights through reports, dashboards, and AI-powered analytics.",
+        usedFor: "Data analysts and business users to visualize KPIs, monitor trends, and make data-driven decisions.",
+        keyFeatures: ["Drag-and-drop report builder", "200+ data connectors", "AI insights (Zia Analytics)", "Pivot tables & charts", "Scheduled reports & alerts", "Embedded analytics (white-label)"],
+        color: "#3182CE",
+      },
+      {
+        name: "Zoho Flow",
+        icon: "🔄",
+        tagline: "Integration & Workflow Automation",
+        purpose: "Connect apps and automate multi-step workflows between Zoho and 800+ third-party apps without coding.",
+        usedFor: "Teams that need to sync data between tools (e.g., CRM → Sheets → Slack) automatically when events happen.",
+        keyFeatures: ["800+ app integrations", "Trigger-based automation", "Multi-step workflows", "Conditional logic & delays", "Data transformation", "Error handling & retry"],
+        color: "#38A169",
+      },
+      {
+        name: "Zoho Desk",
+        icon: "🎧",
+        tagline: "Customer Support & Help Desk",
+        purpose: "Centralized ticketing system to manage customer support requests across email, chat, phone, and social media.",
+        usedFor: "Support teams to resolve customer issues faster with SLA tracking, automation, and knowledge base.",
+        keyFeatures: ["Multi-channel ticketing", "SLA management & escalation", "Automation rules & macros", "Knowledge base & community", "AI assistant — Zia", "Customer happiness ratings"],
+        color: "#D69E2E",
+      },
+      {
+        name: "Zoho Books",
+        icon: "📒",
+        tagline: "Accounting & Finance",
+        purpose: "Complete online accounting software for invoicing, expense tracking, bank reconciliation, and GST/tax compliance.",
+        usedFor: "Small to medium businesses to manage finances, send invoices, track expenses, and file taxes.",
+        keyFeatures: ["Invoice & quotation creation", "Expense & bill tracking", "Bank reconciliation", "GST/VAT compliance", "Project time tracking", "Financial reports (P&L, Balance Sheet)"],
+        color: "#2B6CB0",
+      },
+    ],
+    qa: [
+      {
+        q: "What is Zoho CRM? What are Modules?",
+        theory: "Zoho CRM is a cloud-based CRM platform used by sales teams to manage the entire customer lifecycle — from lead capture to deal closing. Modules are sections of CRM that store different types of records: Leads, Contacts, Accounts, Deals, Activities, Campaigns, etc.",
+        code: `Zoho CRM Key Modules:
+┌─────────────────────────────────────────────┐
+│ Module       │ Purpose                       │
+├─────────────────────────────────────────────┤
+│ Leads        │ Potential customers           │
+│              │ (not yet qualified)           │
+├─────────────────────────────────────────────┤
+│ Contacts     │ Individual people             │
+│              │ (from converted leads)        │
+├─────────────────────────────────────────────┤
+│ Accounts     │ Companies / Organizations     │
+├─────────────────────────────────────────────┤
+│ Deals        │ Sales opportunities           │
+│              │ (with stages & value)         │
+├─────────────────────────────────────────────┤
+│ Activities   │ Calls, Meetings, Tasks        │
+├─────────────────────────────────────────────┤
+│ Campaigns    │ Marketing campaigns           │
+├─────────────────────────────────────────────┤
+│ Reports      │ Analytics & KPIs             │
+└─────────────────────────────────────────────┘
+
+Lead Lifecycle in CRM:
+Lead → Qualified → Contact + Account + Deal
+                        ↓
+                 Deal Stages:
+                 Qualification → Proposal
+                 → Negotiation → Won/Lost`,
+      },
+      {
+        q: "What are Workflows in Zoho CRM?",
+        theory: "Workflow Automation in Zoho CRM automatically triggers actions when certain conditions are met — saving manual effort. A workflow has 3 parts: Trigger (when), Conditions (if), Actions (then). Actions include sending emails, updating fields, creating tasks, calling webhooks.",
+        code: `Workflow Structure:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TRIGGER (When to fire)
+  ✦ Record created
+  ✦ Record edited
+  ✦ Field value changes
+  ✦ Date/time based (e.g. 3 days before close)
+
+CONDITIONS (If criteria match)
+  ✦ Lead Source = "Website"
+  ✦ Deal Amount > 50,000
+  ✦ Stage changed to "Proposal Sent"
+
+ACTIONS (What to do)
+  ✦ Send Email → auto-send welcome email
+  ✦ Assign Task → "Follow up in 2 days"
+  ✦ Update Field → set Priority = High
+  ✦ Webhook → notify Slack / trigger API
+  ✦ Function → run custom Deluge code
+
+Example Workflow:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger:  New Lead created
+Condition: Lead Source = "Website"
+Actions:
+  1. Send welcome email to lead
+  2. Create task: "Call within 24 hours"
+  3. Set Lead Owner = "Sales Rep A"
+  4. Notify sales team on Zoho Cliq`,
+      },
+      {
+        q: "What is Zoho Creator and Deluge Scripting?",
+        theory: "Zoho Creator is a low-code platform to build custom apps. Deluge (Data Enriched Language for the Universal Grid Environment) is Zoho's built-in scripting language. It's used in Creator, CRM, and other Zoho apps to automate logic, integrate APIs, and manipulate data.",
+        code: `// Deluge: Basic variable and output
+name = "Alice";
+age = 25;
+info:zoho.creator.alert("Name: " + name + ", Age: " + age);
+
+// Conditional logic
+score = 85;
+if (score >= 90) {
+    grade = "A";
+} else if (score >= 70) {
+    grade = "B";
+} else {
+    grade = "C";
+}
+info:zoho.creator.alert("Grade: " + grade);  // B
+
+// Loop in Deluge
+total = 0;
+for each i in {1,2,3,4,5} {
+    total = total + i;
+}
+// total = 15
+
+// Fetch CRM records
+leads = zoho.crm.getRecords("Leads");
+for each lead in leads {
+    name = lead.get("Last_Name");
+    info:zoho.creator.alert(name);
+}
+
+// Call external API
+response = invokeurl [
+    url: "https://api.example.com/data"
+    type: GET
+];
+data = response.toMap();
+
+// Create a record in CRM from Creator
+leadMap = Map();
+leadMap.put("Last_Name", "Smith");
+leadMap.put("Company",   "Acme Corp");
+leadMap.put("Lead_Source","Web");
+result = zoho.crm.createRecord("Leads", leadMap);`,
+      },
+      {
+        q: "What is Zoho Analytics? How to build reports?",
+        theory: "Zoho Analytics is a self-service BI and analytics platform. It allows importing data from databases, files, and apps, then building visual reports and dashboards. Key concepts: Workspace (container for tables/reports), Table (data), Report (chart/pivot), Dashboard (collection of reports).",
+        code: `Zoho Analytics Report Types:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Chart Types   → Bar, Line, Pie, Funnel,
+                Scatter, Area, Map
+Pivot Table   → Cross-tab analysis
+Summary View  → Grouped & aggregated data
+Tabular View  → Filtered raw data
+
+Building a Sales Dashboard — Steps:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Import Data
+   → Upload CSV / Connect CRM / DB / API
+
+2. Create Table
+   → Define columns, data types
+
+3. Build Report
+   → Drag columns to X-axis / Y-axis
+   → Choose chart type
+   → Apply filters & color coding
+
+4. Add to Dashboard
+   → Combine multiple reports
+   → Add KPI widgets (total sales, etc.)
+
+5. Share / Schedule
+   → Share via link or email
+   → Schedule auto-email every Monday 9 AM
+
+Common Formulas in Analytics:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+sum("Sales_Amount")
+count("Lead_ID")
+avg("Deal_Value")
+if("Status"="Won", "Deal_Value", 0)
+dateadd("Close_Date", -30, "day")`,
+      },
+      {
+        q: "What is Zoho Flow? How does it work?",
+        theory: "Zoho Flow is an integration platform (iPaaS) that connects Zoho and third-party apps through automated workflows. A Flow has: Trigger app (starts the flow), Actions (what happens next), Logic (conditions, delays, loops). It's similar to Zapier or Make but native to Zoho.",
+        code: `Zoho Flow — How It Works:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[Trigger] → [Condition?] → [Action 1] → [Action 2]
+
+Example Flow 1: CRM Lead → Slack Notification
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger:  Zoho CRM — New Lead created
+Action 1: Slack — Send message to #sales channel
+          "New Lead: {{Lead Name}} from {{Company}}"
+
+Example Flow 2: Form → CRM → Email
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger:  Zoho Forms — New form submission
+Action 1: Zoho CRM — Create Lead record
+Action 2: Gmail — Send confirmation email to user
+
+Example Flow 3: E-commerce → Accounting
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger:  Shopify — New order placed
+Condition: Order total > ₹5000
+Action 1: Zoho Books — Create invoice
+Action 2: Zoho CRM — Create deal
+Action 3: WhatsApp — Send order confirmation
+
+Flow Components:
+┌─────────────┬──────────────────────────────┐
+│ Trigger     │ Webhook, Schedule, App event  │
+│ Decision    │ If/Else conditions            │
+│ Delay       │ Wait X minutes/hours          │
+│ Loop        │ Repeat for each record        │
+│ Function    │ Run custom Deluge code        │
+└─────────────┴──────────────────────────────┘`,
+      },
+      {
+        q: "What is Zoho Desk? How are tickets managed?",
+        theory: "Zoho Desk is a help desk and customer support platform. It centralizes support tickets from email, chat, phone, social media, and web forms. Key concepts: Ticket (support request), SLA (response/resolution time commitment), Automation (auto-assign, escalate), Knowledge Base (self-service articles).",
+        code: `Zoho Desk — Ticket Lifecycle:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Open → In Progress → Pending → Resolved → Closed
+
+Ticket Sources:
+  📧 Email        → auto-creates ticket
+  💬 Live Chat    → embedded chat widget
+  📞 Phone        → call center integration
+  📱 Social Media → Twitter, Facebook DMs
+  🌐 Web Form     → contact us form
+
+SLA (Service Level Agreement):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Priority   │ Response Time │ Resolution Time
+─────────────────────────────────────────────
+Urgent     │  1 hour       │  4 hours
+High       │  4 hours      │  8 hours
+Medium     │  8 hours      │  24 hours
+Low        │  24 hours     │  48 hours
+
+If SLA is breached → escalation to manager
+
+Automation Rules:
+  ✦ Auto-assign ticket to team by product
+  ✦ Send acknowledgement email on ticket create
+  ✦ Escalate if not responded in 2 hours
+  ✦ Close ticket if no reply in 7 days
+
+Zia (AI):
+  ✦ Suggests articles from Knowledge Base
+  ✦ Predicts ticket sentiment (happy/unhappy)
+  ✦ Auto-tags tickets by category`,
+      },
+      {
+        q: "What is Zoho Books? Key Accounting Concepts?",
+        theory: "Zoho Books is cloud accounting software for small/medium businesses. It handles invoicing, expense management, banking, inventory, and tax compliance (GST/VAT). Key accounting terms: Chart of Accounts (list of all accounts), Journal Entry (record of transactions), Accounts Receivable (money owed to you), Accounts Payable (money you owe).",
+        code: `Zoho Books — Core Workflows:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SALES FLOW:
+  Estimate → Sales Order → Invoice → Payment
+
+PURCHASE FLOW:
+  Purchase Order → Bill → Vendor Payment
+
+Key Features:
+┌────────────────────┬────────────────────────────┐
+│ Invoicing          │ Create, send, track invoices│
+│ Expense Tracking   │ Log & categorize expenses   │
+│ Bank Reconciliation│ Match bank + book records   │
+│ GST Filing         │ Auto-calculate, e-file GST  │
+│ Inventory          │ Track stock levels           │
+│ Time Tracking      │ Bill clients by hours        │
+│ Reports            │ P&L, Balance Sheet, Cash Flow│
+└────────────────────┴────────────────────────────┘
+
+Chart of Accounts Types:
+  Asset     → Cash, Inventory, Equipment
+  Liability → Loans, Accounts Payable
+  Equity    → Owner's Capital
+  Income    → Sales Revenue, Service Income
+  Expense   → Rent, Salaries, Utilities
+
+GST in Zoho Books:
+  ✦ Set up tax rates (18%, 5%, 0%)
+  ✦ Auto-applied on invoices
+  ✦ GSTR-1, GSTR-3B reports auto-generated
+  ✦ E-invoicing supported`,
+      },
+    ],
+  },
+};
+
+const TABS = ["Python", "SQL", "Zoho"];
+
+// ─── STATE ───────────────────────────────────────────────────────────────
+let activeTab = "Python";
+let openQ = null;
+let showAnswer = {};
+let known = {};
+let viewMode = "qa"; // "qa" | "products"
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────
+function toggleKnown(key) {
+  known[key] = !known[key];
+  render();
+}
+function toggleAnswer(key) {
+  showAnswer[key] = !showAnswer[key];
+  render();
+}
+function toggleOpen(key) {
+  openQ = openQ === key ? null : key;
+  render();
+}
+
+// ─── RENDER TABS ─────────────────────────────────────────────────────────
+function renderTabs() {
+  const container = document.getElementById('tabs');
+  container.innerHTML = '';
+  TABS.forEach(tab => {
+    const t = data[tab];
+    const active = activeTab === tab;
+    const cnt = (t.qa || []).filter((_, i) => known[`${tab}-${i}`]).length;
+    const btn = document.createElement('button');
+    btn.className = 'tab-btn';
+    btn.style.border = `2px solid ${active ? t.color : '#1e293b'}`;
+    btn.style.background = active ? t.color + '22' : 'transparent';
+    btn.style.color = active ? t.accent : '#64748b';
+    btn.innerHTML = `<span>${t.icon} ${tab}</span><span class="tab-count" style="color:${active ? t.color : '#334155'}">${cnt}/${(t.qa || []).length} done</span>`;
+    btn.onclick = () => { activeTab = tab; viewMode = 'qa'; openQ = null; render(); };
+    container.appendChild(btn);
+  });
+}
+
+// ─── RENDER MAIN CONTENT ─────────────────────────────────────────────────
+function render() {
+  renderTabs();
+  const topic = data[activeTab];
+  const qa = topic.qa || [];
+  const doneCount = qa.filter((q, i) => known[`${activeTab}-${i}`]).length;
+
+  const toggleEl = document.getElementById('view-toggle');
+  const content = document.getElementById('content-area');
+
+  // View toggle (Zoho only)
+  if (activeTab === 'Zoho') {
+    toggleEl.style.display = 'flex';
+    toggleEl.innerHTML = `
+      <button class="view-btn" onclick="setView('qa')"
+        style="border: 2px solid ${viewMode==='qa' ? topic.color : '#1e293b'};
+               background: ${viewMode==='qa' ? topic.color+'22' : 'transparent'};
+               color: ${viewMode==='qa' ? topic.accent : '#64748b'}">
+        📋 Q&amp;A Interview Questions
+      </button>
+      <button class="view-btn" onclick="setView('products')"
+        style="border: 2px solid ${viewMode==='products' ? topic.color : '#1e293b'};
+               background: ${viewMode==='products' ? topic.color+'22' : 'transparent'};
+               color: ${viewMode==='products' ? topic.accent : '#64748b'}">
+        ⚡ Zoho Product Guide
+      </button>`;
+  } else {
+    toggleEl.style.display = 'none';
+  }
+
+  // Products view
+  if (activeTab === 'Zoho' && viewMode === 'products') {
+    let html = `<div style="font-size:12px;color:#475569;margin-bottom:4px;letter-spacing:1px;">ZOHO PRODUCT OVERVIEW — ${topic.products.length} PRODUCTS</div>`;
+    topic.products.forEach(prod => {
+      html += `
+        <div class="prod-card" style="border-left: 4px solid ${prod.color}">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <span style="font-size:24px">${prod.icon}</span>
+            <div>
+              <div class="prod-card-title">${prod.name}</div>
+              <div class="prod-card-tagline">${prod.tagline}</div>
+            </div>
+          </div>
+          <div style="margin-bottom:10px">
+            <span class="prod-purpose-label" style="color:${prod.color}">PURPOSE</span>
+            <p class="prod-purpose-text">${prod.purpose}</p>
+          </div>
+          <div style="margin-bottom:10px">
+            <span class="prod-usedfor-label" style="color:${prod.color}">USED FOR</span>
+            <p class="prod-usedfor-text">${prod.usedFor}</p>
+          </div>
+          <div>
+            <span class="prod-features-label" style="color:${prod.color}">KEY FEATURES</span>
+            <div style="margin-top:8px;display:flex;flex-wrap:wrap">
+              ${prod.keyFeatures.map(f => `<span class="badge" style="background:${prod.color}22;color:${prod.color};border:1px solid ${prod.color}44">${f}</span>`).join('')}
+            </div>
+          </div>
+        </div>`;
+    });
+    content.innerHTML = html;
+    return;
+  }
+
+  // Q&A view
+  let html = `
+    <div id="progress-bar-wrap" style="border: 1px solid ${topic.color}30">
+      <span class="progress-label" style="color:${topic.accent}">Progress</span>
+      <div class="progress-track">
+        <div class="progress-fill" style="width:${(doneCount/qa.length)*100}%;background:linear-gradient(90deg,${topic.color},${topic.accent})"></div>
+      </div>
+      <span class="progress-count">${doneCount}/${qa.length}</span>
+    </div>
+    <div id="qa-list">`;
+
+  qa.forEach((item, i) => {
+    const key = `${activeTab}-${i}`;
+    const isOpen = openQ === key;
+    const isKnown = !!known[key];
+    const showAns = !!showAnswer[key];
+
+    html += `
+      <div class="qa-card" style="background:${isKnown ? topic.color+'12' : '#0f172a'};border:1px solid ${isKnown ? topic.color+'50' : isOpen ? topic.color+'40' : '#1e293b'}">
+        <div class="qa-header" onclick="toggleOpen('${key}')">
+          <span class="qa-num">Q${i+1}</span>
+          <span class="qa-question" style="color:${isKnown ? '#64748b' : '#e2e8f0'};text-decoration:${isKnown ? 'line-through' : 'none'}">${item.q}</span>
+          <button class="qa-check" onclick="event.stopPropagation();toggleKnown('${key}')"
+            style="border:2px solid ${isKnown ? topic.color : '#334155'};background:${isKnown ? topic.color : 'transparent'}">
+            ${isKnown ? '✓' : ''}
+          </button>
+          <span class="qa-arrow">${isOpen ? '▲' : '▼'}</span>
+        </div>`;
+
+    if (isOpen) {
+      html += `
+        <div class="qa-body">
+          <div class="theory-block" style="border-left:3px solid ${topic.color}">
+            <div style="font-size:10px;color:${topic.color};font-weight:700;letter-spacing:2px;margin-bottom:6px">📖 THEORY / EXPLANATION</div>
+            ${escapeHtml(item.theory)}
+          </div>
+          <button class="qa-code-toggle" onclick="toggleAnswer('${key}')"
+            style="border:1px solid ${topic.color}40;background:${showAns ? topic.color+'22' : 'transparent'};color:${topic.accent};margin-bottom:${showAns ? '12px' : '0'}">
+            ${showAns ? '▲ Hide' : '▼ Show'} ${activeTab === 'Zoho' ? 'Details / Diagram' : 'Code Example'}
+          </button>
+          ${showAns ? `<div class="code-block">${escapeHtml(item.code)}</div>` : ''}
+        </div>`;
+    }
+
+    html += `</div>`;
+  });
+
+  html += `</div>
+    <div id="footer-tip">Click question to expand · ▼ Show Code for examples · ✓ checkbox to mark as known</div>`;
+
+  content.innerHTML = html;
+}
+
+function setView(mode) {
+  viewMode = mode;
+  render();
+}
+
+function escapeHtml(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// Initial render
+render();
+</script>
+</body>
+</html>
