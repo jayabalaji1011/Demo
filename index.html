@@ -1,14 +1,599 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Interview Q&A Prep</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Zoho Products — Deep Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    background: #070b14;
+    color: #e2e8f0;
+    font-family: 'Sora', 'Segoe UI', sans-serif;
+  }
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: #0d1117; }
+  ::-webkit-scrollbar-thumb { background: #2d3748; border-radius: 4px; }
+
+  .prod-tab { transition: all 0.2s; border: none; cursor: pointer; font-family: inherit; }
+  .prod-tab:hover { transform: translateY(-1px); }
+  .sec-btn { transition: all 0.18s; border: none; cursor: pointer; font-family: inherit; }
+  .sec-btn:hover { transform: translateX(3px); }
+
+  .code-pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    line-height: 1.75;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: #a5f3fc;
+    background: #010a12;
+    border: 1px solid #1e3a4a;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 0;
+  }
+  .badge-chip {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .glow-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    display: inline-block; margin-right: 8px;
+  }
+  button { cursor: pointer; }
+
+  /* ── HEADER ── */
+  #top-header {
+    background: #0a0e1a;
+    border-bottom: 1px solid #1a2035;
+    padding: 18px 20px 0;
+    position: sticky; top: 0; z-index: 100;
+  }
+  #header-inner { max-width: 1100px; margin: 0 auto; }
+  #header-title-row {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+  }
+  #header-logo {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: linear-gradient(135deg, #F59E0B, #EF4444);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  #header-title { font-weight: 800; font-size: 17px; letter-spacing: -0.3px; }
+  #header-sub { font-size: 11px; color: #4a5568; letter-spacing: 1px; }
+
+  #product-tabs {
+    display: flex; gap: 4px; overflow-x: auto; padding-bottom: 0;
+  }
+  .prod-tab {
+    flex-shrink: 0;
+    padding: 10px 14px 12px;
+    border-radius: 10px 10px 0 0;
+    background: transparent;
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    font-size: 12px;
+  }
+  .prod-tab .tab-icon { font-size: 18px; }
+  .prod-tab .tab-name { white-space: nowrap; }
+  .prod-tab .tab-progress { font-size: 10px; }
+
+  /* ── MAIN LAYOUT ── */
+  #main-layout {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    min-height: calc(100vh - 120px);
+  }
+
+  /* ── SIDEBAR ── */
+  #sidebar {
+    width: 230px; flex-shrink: 0;
+    background: #0a0e1a;
+    border-right: 1px solid #1a2035;
+    padding: 20px 12px;
+    position: sticky; top: 120px;
+    height: calc(100vh - 120px);
+    overflow-y: auto;
+  }
+  #prod-overview-card {
+    border-radius: 10px; padding: 12px; margin-bottom: 16px;
+  }
+  #prod-overview-icon { font-size: 22px; margin-bottom: 4px; }
+  #prod-overview-name { font-weight: 700; font-size: 13px; }
+  #prod-overview-tagline { font-size: 10px; color: #4a5568; margin-top: 2px; line-height: 1.5; }
+  #prod-overview-progress { margin-top: 8px; height: 4px; background: #1a2035; border-radius: 99px; }
+  #prod-overview-fill { height: 100%; border-radius: 99px; transition: width 0.4s; }
+  #prod-overview-count { font-size: 10px; color: #4a5568; margin-top: 4px; }
+  #sections-label { font-size: 10px; color: #2d3748; letter-spacing: 1px; margin-bottom: 8px; padding: 0 4px; }
+
+  .sec-btn {
+    width: 100%; text-align: left;
+    padding: 9px 10px; margin-bottom: 4px;
+    border-radius: 8px;
+    background: transparent;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px;
+  }
+  .sec-btn .sec-icon { font-size: 14px; flex-shrink: 0; }
+  .sec-btn .sec-check { margin-left: auto; font-size: 12px; flex-shrink: 0; }
+
+  /* ── CONTENT AREA ── */
+  #content-area {
+    flex: 1; padding: 28px; overflow-y: auto;
+  }
+
+  /* Product hero */
+  #product-hero {
+    border-radius: 16px; padding: 24px; margin-bottom: 24px;
+  }
+  #hero-inner { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+  #hero-icon { font-size: 48px; }
+  #hero-details { flex: 1; min-width: 200px; }
+  #hero-name { font-weight: 800; font-size: 22px; color: #f1f5f9; }
+  #hero-tagline { font-size: 13px; margin-bottom: 10px; }
+  #hero-overview { font-size: 13px; color: #94a3b8; line-height: 1.7; margin-bottom: 12px; }
+  .hero-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; }
+  .hero-text { margin: 3px 0 0; font-size: 12px; color: #718096; line-height: 1.6; }
+
+  /* Section content box */
+  #section-box {
+    background: #0d1117;
+    border: 1px solid #1a2035;
+    border-radius: 14px; padding: 24px;
+  }
+  #section-header {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
+  }
+  #section-icon-box {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+  }
+  #section-title { font-weight: 800; font-size: 18px; color: #f1f5f9; }
+  #section-product-label { font-size: 11px; letter-spacing: 1px; font-weight: 600; }
+  #section-divider { height: 1px; background: #1a2035; margin-bottom: 20px; }
+
+  /* Nav buttons */
+  #nav-btns { display: flex; gap: 10px; margin-top: 20px; }
+  .nav-prev {
+    padding: 10px 18px; border-radius: 10px;
+    border: 1px solid #1a2035; background: transparent;
+    color: #718096; font-family: inherit;
+    font-size: 13px; font-weight: 600;
+  }
+  .nav-next {
+    padding: 10px 20px; border-radius: 10px;
+    font-family: inherit; font-size: 13px; font-weight: 700;
+    margin-left: auto;
+  }
+  #complete-msg { margin-left: auto; font-size: 13px; font-weight: 700; padding: 10px 0; }
+
+  #bottom-hint { font-size: 11px; color: #2d3748; text-align: center; margin-top: 16px; }
+
+  @media (max-width: 700px) {
+    #sidebar { display: none; }
+    #main-layout { flex-direction: column; }
+    #content-area { padding: 16px; }
+  }
+</style>
 </head>
 <body>
-  <div id="app"></div>
 
-  <script src="script.js"></script>
-</body>
-</html>
+<div id="top-header">
+  <div id="header-inner">
+    <div id="header-title-row">
+      <div id="header-logo">⚡</div>
+      <div>
+        <div id="header-title">Zoho Products — Deep Prep</div>
+        <div id="header-sub" id="header-sub-count">SCRATCH TO DEPTH · 7 PRODUCTS</div>
+      </div>
+    </div>
+    <div id="product-tabs"></div>
+  </div>
+</div>
+
+<div id="main-layout">
+  <div id="sidebar">
+    <div id="prod-overview-card">
+      <div id="prod-overview-icon"></div>
+      <div id="prod-overview-name"></div>
+      <div id="prod-overview-tagline"></div>
+      <div id="prod-overview-progress"><div id="prod-overview-fill"></div></div>
+      <div id="prod-overview-count"></div>
+    </div>
+    <div id="sections-label">SECTIONS</div>
+    <div id="section-list"></div>
+  </div>
+
+  <div id="content-area">
+    <div id="product-hero" style="display:none"></div>
+    <div id="section-box">
+      <div id="section-header">
+        <div id="section-icon-box"></div>
+        <div>
+          <div id="section-title"></div>
+          <div id="section-product-label"></div>
+        </div>
+        <span id="interview-badge" class="badge-chip" style="margin-left:auto;background:#7c3aed22;color:#a78bfa;border:1px solid #7c3aed44;display:none">🎯 INTERVIEW FOCUS</span>
+      </div>
+      <div id="section-divider"></div>
+      <pre class="code-pre" id="section-content"></pre>
+      <div id="nav-btns"></div>
+    </div>
+    <div id="bottom-hint">Click sections in sidebar · Navigate with Next/Prev · ✓ marks read sections</div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────
+const PRODUCTS = [
+  {
+    id: "crm",
+    name: "Zoho CRM",
+    icon: "👥",
+    color: "#E53E3E",
+    accent: "#FC8181",
+    tagline: "Sales & Customer Relationship Management",
+    overview: "Zoho CRM is a cloud-based platform that helps businesses manage their entire sales cycle — from capturing leads to closing deals and retaining customers. It is the flagship product of Zoho and is used by 250,000+ businesses globally.",
+    purpose: "To centralize all customer data, automate sales processes, track deals through a pipeline, and give sales teams insights to close faster.",
+    usedBy: "Sales teams, Business Development Reps, Sales Managers, Marketing teams, CRM Admins/Consultants.",
+    realWorld: "A software company uses Zoho CRM to capture website leads automatically, assign them to sales reps by region, track every email/call, and forecast monthly revenue using deal pipeline data.",
+    sections: [
+      {
+        title: "Core Modules",
+        icon: "📦",
+        content: `Zoho CRM is organized into Modules — each module stores a specific type of record:
+
+LEADS       → Unqualified prospects (new inquiries, website signups)
+CONTACTS    → Qualified individuals (converted from leads)
+ACCOUNTS    → Companies / Organizations linked to contacts
+DEALS       → Sales opportunities with value, stage, close date
+ACTIVITIES  → Calls, Meetings, Tasks, Notes linked to records
+CAMPAIGNS   → Marketing campaigns (email blasts, ads)
+PRODUCTS    → Product catalog with pricing
+QUOTES      → Price quotes sent to prospects
+INVOICES    → Billing documents
+REPORTS     → Data analysis and KPI tracking
+DASHBOARDS  → Visual overview of key metrics
+
+Lead Lifecycle:
+  Website Form → Lead Created → Assigned to Rep
+  → Rep qualifies → Convert Lead
+  → Creates: Contact + Account + Deal
+  → Deal moves through stages → Won / Lost`,
+      },
+      {
+        title: "Sales Pipeline & Stages",
+        icon: "🔄",
+        content: `A Deal (Opportunity) moves through stages in the sales pipeline.
+Default stages (customizable):
+
+  1. Qualification     → Is this a real opportunity?
+  2. Needs Analysis    → What does the client need?
+  3. Value Proposition → How does our product help?
+  4. Proposal Sent     → Quote/proposal delivered
+  5. Negotiation       → Pricing & terms discussion
+  6. Closed Won ✅     → Deal signed
+  7. Closed Lost ❌    → Deal lost
+
+Pipeline Views:
+  • Kanban (card-based drag & drop)
+  • List view (tabular)
+  • Funnel chart (conversion rates)
+
+Key Deal Fields:
+  Deal Name, Account, Contact, Amount,
+  Stage, Close Date, Probability %, Owner`,
+      },
+      {
+        title: "Workflows & Automation",
+        icon: "⚙️",
+        content: `Workflow Rules automate actions when conditions are met.
+
+Structure:
+  TRIGGER   → When to fire the workflow
+  CONDITION → Which records qualify
+  ACTIONS   → What happens automatically
+
+Triggers:
+  • Record Created
+  • Record Edited
+  • Field value changes
+  • Date/time (e.g. 3 days before close date)
+
+Actions:
+  • Send Email (template-based)
+  • Create Task / Event
+  • Update Field value
+  • Send Notification (to user)
+  • Webhook (call external API)
+  • Custom Function (run Deluge code)
+
+Example:
+  Trigger:   New Lead created
+  Condition: Lead Source = "Website"
+  Actions:
+    1. Send welcome email to lead
+    2. Assign owner = Sales Team A
+    3. Create task: "Call within 24 hours"
+    4. Notify manager on Zoho Cliq`,
+      },
+      {
+        title: "Blueprints (Advanced Workflows)",
+        icon: "🗺️",
+        content: `Blueprint is a stage-by-stage process enforcer — ensures records follow a defined path with mandatory fields and approvals at each stage.
+
+Difference from Workflow:
+  Workflow → fires automatically on trigger
+  Blueprint → guides user step-by-step through stages
+
+Blueprint Components:
+  STATES     → stages the record passes through
+  TRANSITIONS → actions to move from one state to next
+  BEFORE     → conditions checked before transition
+  DURING     → fields to fill / actions to do
+  AFTER      → automated actions post-transition
+
+Real Example (Deal Blueprint):
+  Proposal Sent
+    ↓ [Transition: "Schedule Demo"]
+      Before:  Demo Date must be filled
+      During:  User fills Demo Notes
+      After:   Auto-email sent to client
+    ↓ Negotiation
+    ↓ [Transition: "Close Deal"]
+      Before:  Contract uploaded (attachment check)
+      During:  Final amount confirmed
+      After:   Invoice created automatically`,
+      },
+      {
+        title: "Zia — AI Assistant",
+        icon: "🤖",
+        content: `Zia is Zoho CRM's built-in AI that assists sales teams with predictions and recommendations.
+
+Key Zia Features:
+
+LEAD SCORING
+  → Zia scores leads 1–100 based on behavior
+  → High score = likely to convert
+  → Score factors: email opens, website visits, response time
+
+DEAL PREDICTION
+  → Predicts if a deal will be Won or Lost
+  → Shows confidence % (e.g. 78% chance of winning)
+
+SALES FORECASTING
+  → Predicts monthly/quarterly revenue
+  → Based on historical patterns
+
+BEST TIME TO CONTACT
+  → Zia tells you the best time to call/email a lead
+  → Based on when they previously responded
+
+ANOMALY DETECTION
+  → Alerts when sales metrics deviate from normal
+  → e.g. "Calls this week are 40% below average"
+
+EMAIL INTELLIGENCE
+  → Sentiment analysis on customer emails
+  → Auto-suggests reply templates`,
+      },
+      {
+        title: "Canvas Builder",
+        icon: "🎨",
+        content: `Canvas Builder lets you redesign how CRM record pages look — fully custom UI without coding.
+
+Problem it solves:
+  Default CRM record layout shows all fields in a 
+  standard format. Canvas lets you create a beautiful,
+  branded, role-specific view.
+
+What you can do:
+  • Drag-and-drop layout design
+  • Show only relevant fields per role
+  • Add images, color-coded status badges
+  • Custom fonts, colors matching company brand
+  • Different canvas per module (Leads, Deals, etc.)
+  • Different canvas per user role (Manager vs Rep)
+
+Real Use Case:
+  A real estate company creates a Canvas for the
+  Deals module showing: property photo, location map,
+  price prominently, status color badge — instead of
+  the default plain text field list.`,
+      },
+      {
+        title: "Reports & Dashboards",
+        icon: "📊",
+        content: `Reports and Dashboards give visibility into sales performance.
+
+Report Types:
+  Tabular    → Simple list of records with columns
+  Summary    → Grouped data (by department, stage)
+  Matrix     → Cross-tab (rows vs columns — like pivot)
+  KPI        → Single number metric (total revenue)
+
+Common CRM Reports:
+  • Leads by Source (which channel brings most leads)
+  • Deal Pipeline by Stage (funnel analysis)
+  • Sales by Rep (individual performance)
+  • Activities completed this week
+  • Revenue forecast this quarter
+
+Dashboard:
+  • Collection of report widgets on one screen
+  • Real-time auto-refresh
+  • Shareable with team
+  • Custom date range filters
+
+Key Metrics (KPIs) tracked:
+  • Conversion Rate (Leads → Deals)
+  • Average Deal Size
+  • Sales Cycle Length
+  • Win Rate %
+  • Monthly Recurring Revenue (MRR)`,
+      },
+      {
+        title: "Interview Prep — CRM",
+        icon: "🎯",
+        content: `MUST-KNOW CONCEPTS:
+  ✦ Difference: Lead vs Contact vs Deal
+  ✦ Lead conversion process
+  ✦ Workflow vs Blueprint (key interview question!)
+  ✦ How Zia scoring works
+  ✦ SalesSignals — real-time visitor tracking
+  ✦ Territory Management — assigning records by geography
+  ✦ Roles & Profiles — access control in CRM
+  ✦ Webforms — embed form to auto-create CRM leads
+
+COMMON INTERVIEW QUESTIONS:
+  Q: How do you prevent a rep from moving a deal
+     to "Won" without uploading a contract?
+  A: Use Blueprint — add attachment check as a
+     "Before" condition on the Won transition.
+
+  Q: A lead filled a web form. What happens in CRM?
+  A: Webform submits → Lead record auto-created →
+     Workflow fires → Assignment + email sent.
+
+  Q: How is Blueprint different from Workflow?
+  A: Workflow automates on trigger. Blueprint enforces
+     a step-by-step process with stage gates.
+
+  Q: What is the purpose of Profiles in CRM?
+  A: Profiles control what actions a user can do
+     (create, edit, delete). Roles control what
+     records they can see (hierarchy-based).`,
+      },
+    ],
+  },
+
+  {
+    id: "creator",
+    name: "Zoho Creator",
+    icon: "🛠️",
+    color: "#805AD5",
+    accent: "#B794F4",
+    tagline: "Low-Code Application Development Platform",
+    overview: "Zoho Creator is a low-code platform that lets you build custom web and mobile applications using a drag-and-drop interface and Deluge scripting — without needing a full development team.",
+    purpose: "To build custom business applications tailored to specific workflows that off-the-shelf software cannot handle.",
+    usedBy: "Business Analysts, Citizen Developers, IT teams, Zoho Consultants, Operations teams.",
+    realWorld: "A logistics company builds a custom delivery tracking app in Creator — drivers update delivery status from mobile, managers see real-time dashboards, and customers get auto-email updates.",
+    sections: [
+      {
+        title: "Core Building Blocks",
+        icon: "🧱",
+        content: `A Zoho Creator App is made of:
+
+FORMS
+  → Data entry screens (like HTML forms)
+  → Each form = one database table
+  → Fields: Text, Number, Date, Lookup, File, Checkbox
+  → Can be embedded on websites
+
+REPORTS
+  → Display data from forms (List, Grid, Calendar, Map)
+  → Filterable, searchable, exportable
+  → Can be shown to end-users
+
+PAGES
+  → Custom UI screens combining reports + widgets
+  → Like a dashboard home screen
+
+WORKFLOWS
+  → Automated actions triggered by form events
+  → On Submit, On Edit, On Delete, Scheduled
+
+DELUGE SCRIPTS
+  → Custom code blocks for complex logic
+  → Runs on form events, buttons, scheduled tasks
+
+INTEGRATIONS
+  → Connect to Zoho apps and external APIs
+  → Built-in connectors for CRM, Books, etc.`,
+      },
+      {
+        title: "Deluge Scripting — Basics",
+        icon: "💻",
+        content: `Deluge (Data Enriched Language for the Universal Grid Environment) is Zoho's own scripting language. It is used in Creator, CRM functions, and Flow.
+
+VARIABLES & OUTPUT:
+  name = "Alice";
+  age = 25;
+  info:zoho.creator.alert("Hello " + name);
+
+CONDITIONALS:
+  score = 85;
+  if (score >= 90) { grade = "A"; }
+  else if (score >= 70) { grade = "B"; }
+  else { grade = "C"; }
+
+LOOPS:
+  total = 0;
+  for each i in {1,2,3,4,5} { total = total + i; }
+
+FETCH CRM RECORDS:
+  leads = zoho.crm.getRecords("Leads");
+  for each lead in leads {
+    name = lead.get("Last_Name");
+    info:zoho.creator.alert(name);
+  }
+
+CREATE CRM RECORD FROM CREATOR:
+  leadMap = Map();
+  leadMap.put("Last_Name", "Smith");
+  leadMap.put("Company", "Acme");
+  leadMap.put("Lead_Source", "Web");
+  result = zoho.crm.createRecord("Leads", leadMap);
+
+CALL EXTERNAL API:
+  response = invokeurl [
+    url: "https://api.example.com/data"
+    type: GET
+    headers: {"Authorization":"Bearer TOKEN"}
+  ];
+  data = response.toMap();
+  value = data.get("key");`,
+      },
+      {
+        title: "Deluge — Advanced Patterns",
+        icon: "⚡",
+        content: `ERROR HANDLING IN DELUGE:
+  try {
+    result = zoho.crm.createRecord("Leads", map);
+    if (result.get("id") != null) {
+      info:zoho.creator.alert("Created: " + result.get("id"));
+    }
+  } catch (e) {
+    info:zoho.creator.alert("Error: " + e.toString());
+  }
+
+SEARCH RECORDS IN CRM:
+  criteria = "(Lead_Source:equals:Website)";
+  results = zoho.crm.searchRecords("Leads", criteria);
+  for each r in results {
+    email = r.get("Email");
+  }
+
+UPDATE A CRM RECORD:
+  updateMap = Map();
+  updateMap.put("Lead_Status", "Contacted");
+  zoho.crm.updateRecord("Leads", recordId, updateMap);
+
+SEND EMAIL FROM DELUGE:
+  sendmail [
+    from: zoho.loginuserid
+    to: "client@example.com"
+    subject: "Your application is received"
+    message: "Dear " + name + ", we received your form."
+  ]
+
+DAT
